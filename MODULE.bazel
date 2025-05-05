@@ -12,20 +12,20 @@ bazel_dep(name = "aspect_bazel_lib", version = "2.10.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.0.0")
 bazel_dep(name = "rules_nodejs", version = "6.3.1")
 
-node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
+node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node", dev_dependency = True)
 node.toolchain(node_version = "17.9.1")
 use_repo(node, "nodejs_linux_amd64", "nodejs_linux_arm64")
 
 bazel_dep(name = "aspect_rules_js", version = "2.1.2")
 
-pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm")
+pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm", dev_dependency = True)
 pnpm.pnpm(
     name = "pnpm",
     pnpm_version = "9.7.0",
 )
 use_repo(pnpm, "pnpm")
 
-npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
+npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm", dev_dependency = True)
 npm.npm_translate_lock(
     name = "npm",
     pnpm_lock = "//:pnpm-lock.yaml",
@@ -33,7 +33,7 @@ npm.npm_translate_lock(
 )
 use_repo(npm, "npm")
 
-rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext")
+rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext", dev_dependency = True)
 rules_ts_ext.deps(ts_version_from = "//:package.json")
 use_repo(rules_ts_ext, "npm_typescript")
 
@@ -43,8 +43,19 @@ bazel_dep(name = "aspect_rules_ts", version = "3.4.0")
 bazel_dep(name = "bazel_features", version = "1.19.0")
 bazel_dep(name = "bazel_skylib", version = "1.7.1")
 
-include("//bazel/include:llvm.MODULE.bazel")
+#include("//bazel/include:llvm.MODULE.bazel")
 
-include("//bazel/include:proto.MODULE.bazel")
+#include("//bazel/include:proto.MODULE.bazel")
 
-include("//bazel/include:python.MODULE.bazel")
+#include("//bazel/include:python.MODULE.bazel")
+
+tree_sitter = use_extension("//:tree_sitter.bzl", "tree_sitter")
+use_repo(
+	tree_sitter,
+    "tree_sitter_go",
+    "tree_sitter_java",
+    "tree_sitter_json",
+    "tree_sitter_kotlin", 
+    "tree_sitter_starlark",
+    "tree_sitter_typescript",
+)

@@ -50,10 +50,6 @@ _go_repositories()
 
 gazelle_dependencies()
 
-load("//gazelle/common/treesitter/grammars:grammars.bzl", "fetch_grammars")
-
-fetch_grammars()
-
 load("//integration_tests:bats_deps.bzl", "bats_dependencies")
 
 bats_dependencies()
